@@ -1,0 +1,28 @@
+{
+  "string-field": "string-value",
+  "int-field": 9287438932,
+  "float-field": 39827.23496,
+  "byte-field": [
+    12,
+    34,
+    64
+  ],
+  "date-field": "2020-01-17",
+  "datetime-field": "03-12-1995T17:03:16Z",
+  "boolean-field": false,
+  "nested-field": {
+    "nested-string": "nested-string-value",
+    "string-two": "v",
+    "nested-array": [
+      329748325,
+      32487637,
+      2184141,
+      5694345678562,
+      213212321324,
+      343274,
+      3523542645,
+      3223,
+      1
+    ]
+  }
+}

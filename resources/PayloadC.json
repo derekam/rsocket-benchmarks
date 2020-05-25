@@ -1,0 +1,97 @@
+{
+  "sub-payloads": [
+    {
+      "sub-one": {
+        "string-field": "string-value",
+        "float-field": 39827.23,
+        "datetime-field": "03-12-1995T17:03:16Z",
+        "boolean-field": false,
+        "nested-field": {
+          "nested-string": "nested-string-value",
+          "nested-array": [
+            21841,
+            3223,
+            1
+          ],
+          "another-layer": {
+            "sub-one": {
+              "string-field": "string-value",
+              "int-field": 9287438932,
+              "float-field": 39827.23496,
+              "byte-field": [
+                12,
+                47
+              ],
+              "date-field": "2020-01-17",
+              "datetime-field": "03-12-1995T17:03:16Z",
+              "boolean-field": false,
+              "nested-field": {
+                "nested-string": "nested-string-value",
+                "nested-array": [
+                  329748325,
+                  32487637,
+                  2184141,
+                  3223,
+                  1
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sub-two": {
+        "sub-one": {
+          "int-field": 9287438932,
+          "float-field": 39827.23496,
+          "byte-field": [
+            12,
+            34,
+            64,
+            10,
+            47
+          ],
+          "date-field": "2020-01-17",
+          "boolean-field": false
+        }
+      },
+      "sub-three": {
+        "sub-one": {
+          "int-field": 9287438932,
+          "float-field": 39827.23496,
+          "byte-field": [
+            12,
+            34,
+            47
+          ],
+          "date-field": "2020-01-17",
+          "boolean-field": false,
+          "nested-field": {
+            "nested-string": "nested-string-value",
+            "nested-array": [
+              329748325,
+              32487637,
+              3223,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "string-field": "string-value",
+  "int-field": 9287438932,
+  "float-field": 39827.23496,
+  "date-field": "2020-01-17",
+  "datetime-field": "03-12-1995T17:03:16Z",
+  "boolean-field": false,
+  "nested-field": {
+    "nested-string": "nested-string-value",
+    "nested-array": [
+      329748325,
+      32487637,
+      3223,
+      1
+    ]
+  },
+  "long-text": "I've been sitting here now, and do you know what I was saying to myself? If I did not believe in life, if I were to lose faith in the woman I love, if I were to lose faith in the order of things, even if I were to become convinced, on the contrary, that everything is a disorderly, damned, and perhaps devilish chaos, if I were struck even by all the horrors of human disillusionment--still I would want to live, and as long as I have bent to this cup, I will not tear myself from it until I've drunk it all. However, by the age of thirty, I will probably drop the cup, even if I haven't emptied it, and walk away...I don't know where. But until my thirtieth year, I know this for certain, my youth will overcome everything--all disillusionment, all aversion to live. I've asked myself many times: is there such despair in the world as could overcome this wild and perhaps indecent thirst for life in me, and have decided that apparently there is not--that is, once again, until my thirtieth year, after which I myself shall want no more, so it seems to me. Some snotty-nosed, consumptive moralists, poets especially, often call this thirst for life base. True, it's a feature of the Karamazovs, to some extent, this thirst for life despite all; it must be sitting in you too; but why is it base? There is still an awful lot of centripetal force on our planet, Alyosha. I want to live, and I do live, even if it be against logic. Though I do not believe in the order of things, still the sticky little leaves that come out in the spring are dear to me, the blue sky is dear to me, some people are dear to me, whom one loves sometimes, would you believe it, without even knowing why; some human deeds are dear to me, which one has perhaps long ceased believing in, but still honors with one's heart, out of old habit...I want to go to Europe, Alyosha, I'll go straight from here. Of course I know that I will only be going to a graveyard, but to the most, the most previous graveyard, that's the thing! The precious dead lie there, each stone over them speaks of such ardent past life, of such passionate faith in their deeds, their truth, their struggle, and their science, that I--this I know beforehand--will fall to the ground and kiss those stones and weep over them--being wholeheartedly convinced, at the same time, that it has all long been a graveyard and nothing more. And I will not weep from despair, but simply because I will be happy in my shed tears. I will be drunk with my own tenderness. Sticky spring leaves, the blue sky--I love them, that's all! Such things you love not with your mind, not with logic, but with your insides, your guts, you love your first young strength..."
+}
