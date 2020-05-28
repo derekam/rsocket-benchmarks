@@ -9,3 +9,6 @@ rust-websocket/
 */.idea/
 */build/
 *.log
+*/target
+**/*.rs.bk
+*.lock
