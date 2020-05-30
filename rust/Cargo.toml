@@ -5,7 +5,7 @@ authors = ["Derek A <5204543-olderek@users.noreply.gitlab.com>"]
 edition = "2018"
 
 [dependencies]
-tokio = { version = "0.2", features = ["macros", "tcp", "dns", "io-util"] }
+tokio = { version = "0.2.21", features = ["macros", "tcp", "dns", "io-util", "fs"] }
 rsocket_rust =  "0.5.2"  # { path = "/home/derek/projects/rsocket-benchmarks/rust/rsocket-rust/rsocket" }
 log = "*"
 env_logger = "*"
@@ -21,6 +21,3 @@ rsocket_rust_transport_tcp = "*"  #  { path = "/home/derek/projects/rsocket-benc
 [[bin]]
 path = "src/main.rs"
 name = "main"
-
-
-#rsocket_rust =  { path = "/home/derek/projects/rsocket-benchmarks/rust/rsocket-rust/rsocket" }

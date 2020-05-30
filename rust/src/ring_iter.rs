@@ -1,5 +1,9 @@
 use rsocket_rust::prelude::Payload;
 use rsocket_rust::error::RSocketError;
+use futures::Stream;
+use futures::task::Context;
+use tokio::macros::support::{Pin, Poll};
+use std::cell::RefCell;
 
 #[derive(Clone)]
 pub struct PayloadRing<T>
@@ -9,6 +13,20 @@ pub struct PayloadRing<T>
     pub count: i32,
     pub payload: T
 }
+
+//unsafe impl Send for RefCell<PayloadRing<Payload>> {}
+//unsafe impl Sync for RefCell<PayloadRing<Payload>> {}
+
+/*
+unsafe impl Send for PayloadRing<Payload> {}
+unsafe impl Sync for PayloadRing<Payload> {}
+
+unsafe impl<T> Send for PayloadRing<T> {}
+unsafe impl<T> Sync for PayloadRing<T> {}
+
+unsafe impl Send for Payload {}
+unsafe impl Sync for Payload {}
+ */
 
 impl<T> IntoIterator for PayloadRing<T>
     where
@@ -47,6 +65,16 @@ impl<K> Iterator for RingIntoIterator<K>
     }
 }
 
+impl<K> Stream for RingIntoIterator<K>
+    where
+        K: Clone {
+    type Item = K;
+
+    fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        Poll::from(self.next())
+    }
+}
+
 
 
 #[derive(Clone)]
@@ -78,5 +106,13 @@ impl Iterator for IteratorIntoResult {
             None => {None},
             Some(item) => {Some(Ok(item))},
         }
+    }
+}
+
+impl Stream for IteratorIntoResult {
+    type Item = Result<Payload, RSocketError>;
+
+    fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        Poll::from(Some(Ok(self.iter.next().unwrap())))
     }
 }
