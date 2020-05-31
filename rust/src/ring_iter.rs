@@ -1,5 +1,8 @@
 use rsocket_rust::prelude::Payload;
 use rsocket_rust::error::RSocketError;
+use futures::Stream;
+use std::pin::Pin;
+use std::task::{Context, Poll};
 
 #[derive(Clone)]
 pub struct PayloadRing<T>
@@ -47,8 +50,6 @@ impl<K> Iterator for RingIntoIterator<K>
     }
 }
 
-
-
 #[derive(Clone)]
 pub struct ResultRing {
     pub ring: RingIntoIterator<Payload>
@@ -77,6 +78,17 @@ impl Iterator for IteratorIntoResult {
         match self.iter.next() {
             None => {None},
             Some(item) => {Some(Ok(item))},
+        }
+    }
+}
+
+impl Stream for IteratorIntoResult {
+    type Item = Result<Payload, RSocketError>;
+
+    fn poll_next(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        match self.get_mut().iter.next() {
+            Some(item) => Poll::from(Some(Ok(item))),
+            None => Poll::from(None)
         }
     }
 }

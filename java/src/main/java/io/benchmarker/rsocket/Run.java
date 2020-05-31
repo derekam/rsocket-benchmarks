@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Run {
 
     public static void main(String[] args) throws Exception {
-        File fout = new File("java/java_results.csv");
+        File fout = new File("java_results.csv");
         FileOutputStream fos = new FileOutputStream(fout);
 
         BufferedWriter statsFile = new BufferedWriter(new OutputStreamWriter(fos));
@@ -18,7 +18,10 @@ public class Run {
         final Server server = new Server();
         BenchmarkClient client = new BenchmarkClient(statsFile);
 
-        File[] files = new File("resources").listFiles();
+        File[] files = new File("../resources").listFiles();
+        if (files != null) {
+            Arrays.sort(files);
+        }
         AtomicInteger index = new AtomicInteger();
 
         Arrays.asList(files).stream()

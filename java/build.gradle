@@ -10,10 +10,21 @@
 // Apply the java plugin to add support for Java
 plugins {
     id 'java'
+    id "application"
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id "io.freefair.lombok" version "5.1.0"
 }
 
 sourceCompatibility = 11
+
+ext {
+    javaMainClass = "io.benchmarker.rsocket.Run"
+}
+
+mainClassName = "io.benchmarker.rsocket.Run"
+
+group 'io.benchmarker.rsocket'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -39,6 +50,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
 
+    //classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
@@ -46,4 +58,3 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
 }
-

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"fmt"
 	"github.com/jjeffcaii/reactor-go/scheduler"
 	"github.com/rsocket/rsocket-go"
 	"github.com/rsocket/rsocket-go/payload"
@@ -29,7 +30,7 @@ func runbenchmarks(benchmark Benchmark, writer *bufio.Writer) {
 	start := time.Now()
 	for i := 0; i < benchmark.count; i++ {
 		singlestart := time.Now()
-		client.RequestResponse(benchmark.data).DoOnSuccess(func(input payload.Payload) {
+		_, err = client.RequestResponse(benchmark.data).DoOnSuccess(func(input payload.Payload) {
 			times[i] = time.Since(singlestart).Nanoseconds()
 			if i % 1_000_000 == 0 {
 				log.Println(i)
@@ -37,6 +38,9 @@ func runbenchmarks(benchmark Benchmark, writer *bufio.Writer) {
 		}).DoOnError(func(e error) {
 			panic(e)
 		}).Block(ctx)
+		if err != nil {
+			fmt.Println("Error from reqres, err:", err)
+		}
 	}
 	doStats(times, start, writer)
 
@@ -50,40 +54,47 @@ func runbenchmarks(benchmark Benchmark, writer *bufio.Writer) {
 	}
 	doStats(timess, startt, writer)
 
+	//req channel
+	sendFlux := flux.Create(func(ctx context.Context, s flux.Sink) {
+		for i := 0; i < benchmark.count; i++ {
+			s.Next(benchmark.data)
+		}
+		s.Complete()
+		ctx.Done()
+	})
+	// request channel
+	timesss := make([]int64, int(benchmark.count))
+	i := 0
+	starttt := time.Now()
+	last := starttt
+	_, err = client.RequestChannel(sendFlux).SubscribeOn(scheduler.Single()).
+		DoOnNext(func(input payload.Payload) {
+			timesss[i] = time.Since(last).Nanoseconds()
+			last = time.Now()
+			i += 1
+		}).DoFinally(func(s rx.SignalType) {
+		doStats(timesss, starttt, writer)
+	}).BlockLast(ctx)
+
+	if err != nil {
+		fmt.Println("Error from channel, err:", err)
+	}
+
 	// request stream
 	ttimes := make([]int64, int(benchmark.count))
-	i := 0
+	i = 0
 	sstart := time.Now()
-	last := sstart
-	client.RequestStream(benchmark.data).SubscribeOn(scheduler.Single()).DoOnNext(func(input payload.Payload) {
+	last = sstart
+	_, err = client.RequestStream(benchmark.data).SubscribeOn(scheduler.Single()).DoOnNext(func(input payload.Payload) {
 		ttimes[i] = time.Since(last).Nanoseconds()
 		last = time.Now()
 		i += 1
 	}).DoFinally(func(s rx.SignalType) {
 		doStats(ttimes, sstart, writer)
-		sendFlux := flux.Create(func(ctx context.Context, s flux.Sink) {
-			for i := 0; i < benchmark.count; i++ {
-				s.Next(benchmark.data)
-			}
-			s.Complete()
-			ctx.Done()
-		})
-		time.Sleep(10 * time.Second)
-		// request channel
-		timesss := make([]int64, int(benchmark.count))
-		i = 0
-		starttt := time.Now()
-		last = starttt
-		client.RequestChannel(sendFlux).SubscribeOn(scheduler.Single()).
-			DoOnNext(func(input payload.Payload) {
-			timesss[i] = time.Since(last).Nanoseconds()
-				last = time.Now()
-				i += 1
-			}).DoFinally(func(s rx.SignalType) {
-			doStats(timesss, starttt, writer)
-		}).BlockLast(ctx)
 	}).BlockLast(ctx)
-	time.Sleep(30 * time.Second)
+	if err != nil {
+		fmt.Println("Error from stream, err:", err)
+	}
 
 
 }
