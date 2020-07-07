@@ -1,6 +1,11 @@
-# RSocket Benchmarks
+# RSocket Benchmarks (Under Construction)
 Benchmarking RSocket libraries in various languages, then the winner (RSocket-Rust) against a Websocket library in the same language.
 
+## TODO (this project is not yet complete):
+ - Add Rust Websocket benchmarking
+ - Resolve intermittent Go issues (involves fixes for rsocket-go)
+ - Use something like Redis or SQLite instead of dumping to files
+ - Results analysis and visualization
 
 Benchmarks
 ---
